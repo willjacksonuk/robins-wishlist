@@ -1,0 +1,111 @@
+---
+import { Badge } from "@/components/starwind/badge";
+import { Button } from "@/components/starwind/button";
+
+interface Props {
+  item: {
+    title: string;
+    brand?: string | null;
+    description?: string | null;
+    code?: string | null;
+    url?: string | null;
+    price?: string | null;
+    priority?: "high" | "medium" | "low" | null;
+  };
+}
+
+const { item } = Astro.props;
+
+const priorityBadge: Record<string, "success" | "info" | "ghost"> = {
+  high: "success",
+  medium: "info",
+  low: "ghost",
+};
+
+const priorityLabel: Record<string, string> = {
+  high: "High",
+  medium: "Medium",
+  low: "Low",
+};
+---
+
+<article
+  class="group relative flex flex-col bg-card border border-border rounded-md p-5 transition-all duration-200 hover:border-blue-500/40 hover:glow-blue"
+>
+  <div class="mb-3">
+    <div class="flex items-start justify-between gap-3 mb-1">
+      <h2 class="text-base font-semibold leading-snug text-foreground">
+        {
+          item.url ? (
+            <a
+              href={item.url}
+              target="_blank"
+              rel="noopener noreferrer"
+              class="hover:text-primary-accent transition-colors"
+            >
+              {item.title}
+            </a>
+          ) : (
+            item.title
+          )
+        }
+      </h2>
+      {
+        item.priority && (
+          <Badge
+            variant={priorityBadge[item.priority]}
+            size="sm"
+            class="shrink-0 mt-0.5"
+          >
+            {priorityLabel[item.priority]}
+          </Badge>
+        )
+      }
+    </div>
+    {item.brand && <p class="text-xs text-muted-foreground">{item.brand}</p>}
+  </div>
+  <section>
+    {
+      item.description && (
+        <p class="text-sm text-muted-foreground leading-relaxed flex-1 mb-2">
+          {item.description}
+        </p>
+      )
+    }
+    {
+      item.code ? (
+        <p class="text-xs text-muted-foreground leading-relaxed flex-1 mb-4">
+          {item.code}
+        </p>
+      ) : (
+        <span class="mb-2" />
+      )
+    }
+  </section>
+  <div
+    class="flex items-center justify-between mt-auto pt-3 border-t border-border"
+  >
+    {
+      item.price ? (
+        <span class="text-sm font-semibold text-primary-accent">
+          £{item.price}
+        </span>
+      ) : (
+        <span />
+      )
+    }
+    {
+      item.url && (
+        <Button
+          variant="outline"
+          size="sm"
+          href={item.url}
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          View
+        </Button>
+      )
+    }
+  </div>
+</article>
