@@ -5,6 +5,7 @@ import Layout from "../layouts/Layout.astro";
 import WishlistItem from "../components/WishlistItem.astro";
 import { ThemeToggle } from "@/components/starwind/theme-toggle";
 import { getCollection, getEntry } from "astro:content";
+import { Button } from "@/components/starwind/button";
 
 const items = await getCollection("wishlist");
 const meta = await getEntry("meta", "meta");
@@ -24,7 +25,16 @@ const subtitle = meta?.data.subtitle ?? "";
         <span class="text-xl font-medium text-muted-foreground tracking-wide"
           >{title}</span
         >
-        <div class="flex gap-4">
+        <div class="flex gap-6 items-center">
+          <Button
+            variant="default"
+            size="sm"
+            href="https://app.pagescms.org/willjacksonuk/robins-wishlist/main/collection/wishlist"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            Edit
+          </Button>
           <ThemeToggle />
         </div>
       </div>
